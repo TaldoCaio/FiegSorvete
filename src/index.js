@@ -1,4 +1,5 @@
 
+
 const tagDias = document.querySelector(".days"),
     dataAtual = document.querySelector(".current-date"),
     anteriorIcone = document.querySelectorAll(".icons span");
@@ -38,12 +39,12 @@ const renderizarCalendario = () => {
         try {
             const datas = await fetch('http://localhost:3100/busca/datas');
             const info = await fetch('http://localhost:3100/busca/mes/' + (mesAtual + 1));
+
             const aniversarios = await datas.json();
             const muralInfo = await info.json();
 
             marcadores(aniversarios);
             muralAniversariantes(muralInfo);
-
 
         } catch (error) {
             console.error(error);
@@ -72,24 +73,54 @@ const renderizarCalendario = () => {
     function muralAniversariantes(muralInfo) {
         let lembretesMural = document.querySelector('.lembretes');
         let tagLi = "";
-      
+
         for (let usuario of muralInfo) {
-          const data = usuario.aniversario.substring(0, 10);
-          const nomes = usuario.nome;
-          const mes = usuario.mesAniversario;
-          const mesFormatado = usuario.aniversario.substring(0,10)
-          const [year,month,day] = mesFormatado.split('-')
-      
-          if (mes === (mesAtual + 1)) {
-            tagLi += `<li class="aniversariantes">${nomes + ": " + Number(day) + "/" + Number(month) + "/" + Number(year)}</li>`;
-          }
+            const nomes = usuario.nome;
+            const mes = usuario.mesAniversario;
+            const mesFormatado = usuario.aniversario.substring(0, 10)
+            const [year, month, day] = mesFormatado.split('-')
+
+            if (mes === (mesAtual + 1)) {
+                tagLi += `<li class="aniversariantes">${nomes + ": " + Number(day) + "/" + Number(month) + "/" + Number(year)}</li>`;
+            }
         }
-      
+
         lembretesMural.innerHTML = tagLi;
-      }
-      
+    }
+
+
+
 }
 
+async function gerarCobranca() {
+    const info = await fetch('http://localhost:3100/busca/mes/' + (mesAtual + 1))
+    const infoUsers = await info.json();
+
+    for (let usuario of infoUsers) {
+        const nomes = usuario._id;
+        const mes = usuario.aniversario.substring(0,10);
+        const [year, month, day] = mes.split('-')
+        const mesFormatado = (Number(month)) + (Number(day))
+
+        
+
+        if (mes === (mesAtual + 1)) {
+            console.log("passou")
+            await fetch('http://localhost:3000/cobranca/gerar', {
+                method: "POST",
+                body: JSON.stringify({
+                    cobStatus: "P",
+                    idCobrado: nomes,
+                    dataSorvete: mesFormatado
+                }),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
+
+            }).then(response => response.json()).then(json => console.log(json));
+        }
+    }
+}
 
 
 renderizarCalendario();

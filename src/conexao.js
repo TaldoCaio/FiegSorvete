@@ -60,7 +60,7 @@ app.get('/busca/mes/:aniversario', async (req, res) => {
             {
                 $project: {
                     nome: 1,
-                    _id: 0,
+                    _id: 1,
                     mesAniversario: { $month: '$aniversario' },
                     aniversario: 1
                 }
@@ -76,3 +76,13 @@ app.get('/busca/mes/:aniversario', async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
+
+app.get('/busca/:id', async (req, res) => {
+    try {
+        const { id } = req.params
+        const user = await User.findOne({id})
+        res.status(200).json(user)
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
+})

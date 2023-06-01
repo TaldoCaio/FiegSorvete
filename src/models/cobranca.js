@@ -4,12 +4,13 @@ const mongoose = require('mongoose');
 const cobrancaSchema = mongoose.Schema(
     {
         cobStatus: String,
-        idCobrado: String
+        idCobrado: String,
+        dataSorvete: Date
     },
     {
-        timestamp: true
+        timestamps: true
     }
 )
 
-const cobranca = mongoose.model(cobrancaSchema)
-module.exports = cobranca
+const Cobranca = mongoose.model('Cobranca',cobrancaSchema)
+module.exports = Cobranca
