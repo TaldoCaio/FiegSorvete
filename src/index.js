@@ -1,5 +1,3 @@
-
-
 const tagDias = document.querySelector(".days"),
     dataAtual = document.querySelector(".current-date"),
     anteriorIcone = document.querySelectorAll(".icons span");
@@ -54,6 +52,7 @@ const renderizarCalendario = () => {
     getDatas()
 
     function marcadores(aniversarios) {
+
         let diasCalendario = document.querySelectorAll('.days li');
 
         for (let aniversario of aniversarios) {
@@ -70,26 +69,40 @@ const renderizarCalendario = () => {
         }
     }
 
-    function muralAniversariantes(muralInfo) {
+    async function muralAniversariantes(muralInfo) {
+
         let lembretesMural = document.querySelector('.lembretes');
         let tagLi = "";
 
         for (let usuario of muralInfo) {
+
+            const id = usuario._id;
             const nomes = usuario.nome;
             const mes = usuario.mesAniversario;
-            const mesFormatado = usuario.aniversario.substring(0, 10)
-            const [year, month, day] = mesFormatado.split('-')
+            const mesFormatado = usuario.aniversario.substring(0, 10);
+            const [year, month, day] = mesFormatado.split('-');
 
-            if (mes === (mesAtual + 1)) {
-                tagLi += `<li class="aniversariantes">${nomes + ": " + Number(day) + "/" + Number(month) + "/" + Number(year)}</li>`;
+            const buscaStatus = await fetch('http://localhost:3000/cobranca/buscar/' + id);
+            const status = await buscaStatus.json();
+            let aniversarianteAdicionado = false;
+
+            for (let stat of status) {
+                const statusAtual = stat.cobStatus;
+
+                if (mes === (mesAtual + 1)) {
+                    if (!aniversarianteAdicionado) {
+                        if (statusAtual === "P") {
+                            tagLi += `<li class="aniversariantes" id="pendente" ">${nomes + ": " + Number(day) + "/" + Number(month) + " = " + "Pendente"}</li>`;
+                        } else {
+                            tagLi += `<li class="aniversariantes" id="quitado" ">${nomes + ": " + Number(day) + "/" + Number(month) + " = " + "Quitado"}</li>`;
+                        }
+                        aniversarianteAdicionado = true;
+                    }
+                }
             }
         }
-
         lembretesMural.innerHTML = tagLi;
     }
-
-
-
 }
 
 async function gerarCobranca() {
@@ -98,14 +111,11 @@ async function gerarCobranca() {
 
     for (let usuario of infoUsers) {
         const nomes = usuario._id;
-        const mes = usuario.aniversario.substring(0,10);
+        const mes = usuario.aniversario.substring(0, 10);
         const [year, month, day] = mes.split('-')
         const mesFormatado = (Number(month)) + (Number(day))
 
-        
-
-        if (mes === (mesAtual + 1)) {
-            console.log("passou")
+        if (Number(month) === (mesAtual + 1)) {
             await fetch('http://localhost:3000/cobranca/gerar', {
                 method: "POST",
                 body: JSON.stringify({
@@ -116,8 +126,8 @@ async function gerarCobranca() {
                 headers: {
                     "Content-type": "application/json; charset=UTF-8"
                 }
-
             }).then(response => response.json()).then(json => console.log(json));
+
         }
     }
 }

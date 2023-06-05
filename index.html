@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br" dir="ltr">
+<html lang="pt-br">
 
 <head>
   <meta charset="utf-8">
@@ -16,32 +16,34 @@
     <img src="./styles/logo.jpg" alt="logoFieg">
     <b><i>Sorvete</i></b>
   </div>
-  <button onclick="gerarCobranca()">Gerar Cobranças</button>
-  <div class="wrapper">
-    <header>
-      <p class="current-date"></p>
-      <div class="icons">
-        <span id="prev" class="material-symbols-rounded">chevron_left</span>
-        <span id="next" class="material-symbols-rounded">chevron_right</span>
+  <div class="contentContainer">
+
+    <div class="wrapper">
+      <header>
+        <p class="current-date"></p>
+        <div class="icons">
+          <span id="prev" class="material-symbols-rounded">chevron_left</span>
+          <span id="next" class="material-symbols-rounded">chevron_right</span>
+        </div>
+      </header>
+      <div class="calendar">
+        <ul class="weeks">
+          <li>Dom</li>
+          <li>Seg</li>
+          <li>Ter</li>
+          <li>Qua</li>
+          <li>Qui</li>
+          <li>Sex</li>
+          <li>Sab</li>
+        </ul>
+        <ul class="days"></ul>
       </div>
-    </header>
-    <div class="calendar">
-      <ul class="weeks">
-        <li>Dom</li>
-        <li>Seg</li>
-        <li>Ter</li>
-        <li>Qua</li>
-        <li>Qui</li>
-        <li>Sex</li>
-        <li>Sab</li>
-      </ul>
-      <ul class="days"></ul>
     </div>
-  </div>
-  <div class="mural">
-    <h1>Mural</h1>
-    <ul class="lembretes"></ul>
-    <p></p>
+    <div class="mural">
+      <h1>Mural</h1>
+      <ul class="lembretes"></ul>
+      <button onclick="gerarCobranca()" class="gerarCobranca">Gerar Cobranças</button>
+    </div>
   </div>
 </body>
 

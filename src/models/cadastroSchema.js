@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const userSchema = mongoose.Schema(
     {
         nome: String,   
-        aniversario: Date,        
+        aniversario: Date,
     },
     {
         timestamps: true

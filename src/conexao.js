@@ -44,7 +44,7 @@ app.get('/busca', async (req, res) => {
 
 app.get('/busca/datas', async (req, res) => {
     try {
-        const user = await User.find({}, { aniversario: 1, _id: 0, nome: 1 })
+        const user = await User.find({}, { aniversario: 1, _id: 1, nome: 1 })
         res.status(200).json(user)
     } catch (error) {
         res.status(500).json({ message: error.message })
