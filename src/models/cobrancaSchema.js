@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-
+//modelo de geração de cobrança
 const cobrancaSchema = mongoose.Schema(
     {
         cobStatus: String,

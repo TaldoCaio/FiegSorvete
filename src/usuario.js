@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }))
 
-
+//mesma coisa de cobranca.js
 
 mongoose.connect(URI).then(() => {
     console.log('Conectado ao mongoDB')

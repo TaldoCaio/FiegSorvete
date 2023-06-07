@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-
+//modelo de cadastro de novo usuário
 const userSchema = mongoose.Schema(
     {
         nome: String,   

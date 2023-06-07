@@ -21,7 +21,7 @@ mongoose.connect(URI).then(() => {
     console.log(error)
 });
 
-
+//post com verificação de existencia
 app.post('/cobranca/gerar', async (req, res) => {
     try {
         const { dataSorvete, idCobrado } = req.body;
@@ -39,7 +39,7 @@ app.post('/cobranca/gerar', async (req, res) => {
     }
 });
 
-
+//get por idCobrado(id do USUÁRIO)
 app.get('/cobranca/buscar/:idCobrado', async (req, res) => {
     try {
         const { idCobrado } = req.params
@@ -50,12 +50,12 @@ app.get('/cobranca/buscar/:idCobrado', async (req, res) => {
     }
 }),
 
-
-    app.get('/cobranca/buscar', async (req, res) => {
+//get geral
+app.get('/cobranca/buscar', async (req, res) => {
         try {
             const cobranca = await Cobranca.find({})
             res.status(200).json(cobranca)
         } catch (error) {
             res.status(500).json({ message: error.message })
         }
-    })
+})
