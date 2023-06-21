@@ -1,27 +1,10 @@
-const mongoose = require('mongoose');
 const express = require('express');
-const app = express();
-const URI = "mongodb+srv://Admin:DefaultPassword@serveradote.fbcdvgq.mongodb.net/sorveteDB?retryWrites=true&w=majority"
-const User = require('./models/cadastroSchema');
-const cors = require('cors');
+const router = express.Router();
+const User = require('../models/cadastroSchema');
 
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }))
+const usuarioRouter = router
 
-//mesma coisa de cobranca.js
-
-mongoose.connect(URI).then(() => {
-    console.log('Conectado ao mongoDB')
-    app.listen(3100, () => {
-        console.log('SFV1 rodando na porta 3100');
-    })
-}).catch(() => {
-    console.log(error)
-});
-
-
-app.post('/cadastro', async (req, res) => {
+usuarioRouter.post('/cadastro', async (req, res) => {
     try {
         const user = await User.create(req.body)
         const newUser = user
@@ -33,7 +16,7 @@ app.post('/cadastro', async (req, res) => {
     }
 });
 
-app.get('/busca', async (req, res) => {
+usuarioRouter.get('/busca', async (req, res) => {
     try {
         const user = await User.find({})
         res.status(200).json(user);
@@ -42,7 +25,7 @@ app.get('/busca', async (req, res) => {
     }
 })
 
-app.get('/busca/datas', async (req, res) => {
+usuarioRouter.get('/buscaDatas', async (req, res) => {
     try {
         const user = await User.find({}, { aniversario: 1, _id: 1, nome: 1 })
         res.status(200).json(user)
@@ -51,7 +34,7 @@ app.get('/busca/datas', async (req, res) => {
     }
 })
 
-app.get('/busca/mes/:aniversario', async (req, res) => {
+usuarioRouter.get('/buscaMes/:aniversario', async (req, res) => {
     try {
         const { aniversario } = req.params;
         const month = parseInt(aniversario);
@@ -77,12 +60,14 @@ app.get('/busca/mes/:aniversario', async (req, res) => {
     }
 });
 
-app.get('/busca/:id', async (req, res) => {
+usuarioRouter.get('/busca/:id', async (req, res) => {
     try {
         const { id } = req.params
-        const user = await User.findOne({id})
+        const user = await User.findOne({ id })
         res.status(200).json(user)
     } catch (error) {
-        res.status(500).json({message: error.message})
+        res.status(500).json({ message: error.message })
     }
 })
+
+module.exports = usuarioRouter

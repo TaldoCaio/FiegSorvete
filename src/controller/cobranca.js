@@ -1,28 +1,11 @@
-const mongoose = require('mongoose');
+const Cobranca = require('../models/cobrancaSchema');
 const express = require('express');
-const app = express();
-const URI = "mongodb+srv://Admin:DefaultPassword@serveradote.fbcdvgq.mongodb.net/sorveteDB?retryWrites=true&w=majority"
-const cors = require('cors');
-const Cobranca = require('./models/cobrancaSchema');
+const router = express.Router();
 
-
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }))
-
-
-
-mongoose.connect(URI).then(() => {
-    console.log('Conectado ao mongoDB')
-    app.listen(3000, () => {
-        console.log('SFV1 rodando na porta 3000');
-    })
-}).catch(() => {
-    console.log(error)
-});
+const cobrancaRouter = router
 
 //post com verificação de existencia
-app.post('/cobranca/gerar', async (req, res) => {
+cobrancaRouter.post('/gerar', async (req, res) => {
     try {
         const { dataSorvete, idCobrado } = req.body;
 
@@ -40,7 +23,7 @@ app.post('/cobranca/gerar', async (req, res) => {
 });
 
 //get por idCobrado(id do USUÁRIO)
-app.get('/cobranca/buscar/:idCobrado', async (req, res) => {
+cobrancaRouter.get('/buscar/:idCobrado', async (req, res) => {
     try {
         const { idCobrado } = req.params
         const cobranca = await Cobranca.find({ idCobrado }, { _id: 0, idCobrado: 1, cobStatus: 1 })
@@ -51,7 +34,7 @@ app.get('/cobranca/buscar/:idCobrado', async (req, res) => {
 }),
 
 //get geral
-app.get('/cobranca/buscar', async (req, res) => {
+cobrancaRouter.get('/buscar', async (req, res) => {
         try {
             const cobranca = await Cobranca.find({})
             res.status(200).json(cobranca)
@@ -59,3 +42,5 @@ app.get('/cobranca/buscar', async (req, res) => {
             res.status(500).json({ message: error.message })
         }
 })
+
+module.exports = cobrancaRouter

@@ -41,8 +41,8 @@ const renderizarCalendario = () => {
     //só serve pra rodar junto com a render do calendário
     async function getDatas() {
         try {
-            const datas = await fetch('http://localhost:3100/busca/datas');
-            const info = await fetch('http://localhost:3100/busca/mes/' + (mesAtual + 1));
+            const datas = await fetch('http://localhost:3000/usuario/busca');
+            const info = await fetch('http://localhost:3000/usuario/buscaMes/' + (mesAtual + 1));
 
             const aniversarios = await datas.json();
             const muralInfo = await info.json();
@@ -116,7 +116,7 @@ const renderizarCalendario = () => {
 
 //a desgraça da geração de cobrança
 async function gerarCobranca() {
-    const info = await fetch('http://localhost:3100/busca/mes/' + (mesAtual + 1))
+    const info = await fetch('http://localhost:3000/usuario/buscaMes/' + (mesAtual + 1))
     const infoUsers = await info.json();
 
     for (let usuario of infoUsers) {
@@ -156,7 +156,7 @@ async function renderizarMenu() {
     }
 
     async function getAniversariantes() {
-        const info = await fetch('http://localhost:3100/busca/mes/' + (mesAtual + 1))
+        const info = await fetch('http://localhost:3000/usuario/buscaMes/' + (mesAtual + 1))
         const infoResponse = await info.json()
         let tagLi = ""; // Inicializa tagLi antes do loop
 
