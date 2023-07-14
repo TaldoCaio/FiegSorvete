@@ -1,12 +1,19 @@
 const express = require('express');
-const router = express.Router();
+const Router = express.Router();
 const User = require('../models/cadastroSchema');
+const {PrismaClient} = require('@prisma/client');
 
-const usuarioRouter = router
+const usuarioRouter = Router
+const prisma = new PrismaClient()
 
 usuarioRouter.post('/cadastro', async (req, res) => {
     try {
-        const user = await User.create(req.body)
+        const {nome,aniversario} = req.body
+        const user = await prisma.user.create({
+            data: {
+                
+            }
+        })
         const newUser = user
         res.status(200).json(newUser);
 
@@ -18,7 +25,7 @@ usuarioRouter.post('/cadastro', async (req, res) => {
 
 usuarioRouter.get('/busca', async (req, res) => {
     try {
-        const user = await User.find({})
+        const user = await prisma.user.find({})
         res.status(200).json(user);
     } catch (error) {
         res.status(500).json({ message: error.message })
@@ -60,10 +67,10 @@ usuarioRouter.get('/buscaMes/:aniversario', async (req, res) => {
     }
 });
 
-usuarioRouter.get('/busca/:id', async (req, res) => {
+usuarioRouter.get('/busca/:_id', async (req, res) => {
     try {
-        const { id } = req.params
-        const user = await User.findOne({ id })
+        const {_id} = req.params
+        const user = User.findById(_id)
         res.status(200).json(user)
     } catch (error) {
         res.status(500).json({ message: error.message })
