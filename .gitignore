@@ -1,3 +1,5 @@
 node_modules
 .vscode
 package-lock.js
+# Keep environment variables out of version control
+.env
