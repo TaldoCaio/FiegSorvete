@@ -1,24 +1,25 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-datasource db {
-  provider = "mongodb"
-  url      = env("DATABASE_URL")
-}
-
 generator client {
   provider = "prisma-client-js"
 }
 
-model Users{
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  nome String
-  aniversaio DateTime
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
-model Cobrancas {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  cobStatus String
-  idCobrado String 
-  dataSorvete DateTime
+model Users {
+  user_id Int @id @default(autoincrement())
+  nome String
+  aniversario String
+  cobrancas Cobranca[]
+}
+
+model Cobranca{
+  cobranca_id Int @id @default(autoincrement())
+  cobrancas Users @relation(fields: [idCobrado], references: [user_id])
+  idCobrado Int
+  datasorvete String
 }
