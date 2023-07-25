@@ -13,13 +13,14 @@ datasource db {
 model Users {
   user_id Int @id @default(autoincrement())
   nome String
-  aniversario DateTime
+  aniversario String
   cobrancas Cobranca[]
 }
 
 model Cobranca{
   cobranca_id Int @id @default(autoincrement())
-  cobradoId Users @relation(fields: [idCobrado], references: [user_id])
+  statusCobranca String
+  cobrancas Users @relation(fields: [idCobrado], references: [user_id])
   idCobrado Int
-  datasorvete DateTime
+  datasorvete String
 }

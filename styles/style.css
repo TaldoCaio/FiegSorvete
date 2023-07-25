@@ -1,0 +1,245 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  display: flex;
+  padding: 0 10px;
+  min-height: 100vh;
+  background: #005EA6;
+  align-items: center;
+  justify-content: center;
+}
+
+.contentContainer {
+  display: flex;
+  max-width: 960px;
+  max-height: 100%;
+}
+
+.contentContainer> {
+  flex-direction: column;
+}
+
+.wrapper {
+  width: 700px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+
+}
+
+.wrapper header {
+  display: flex;
+  align-items: center;
+  padding: 25px 30px 10px;
+  justify-content: space-between;
+}
+
+header .icons {
+  display: flex;
+}
+
+header .icons span {
+  height: 38px;
+  width: 38px;
+  margin: 0 1px;
+  cursor: pointer;
+  color: #878787;
+  text-align: center;
+  line-height: 38px;
+  font-size: 1.9rem;
+  user-select: none;
+  border-radius: 50%;
+}
+
+.icons span:last-child {
+  margin-right: -10px;
+}
+
+header .icons span:hover {
+  background: #f2f2f2;
+}
+
+header .current-date {
+  font-size: 1.45rem;
+  font-weight: 500;
+}
+
+.calendar {
+  padding: 10px;
+}
+
+.calendar ul {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  text-align: center;
+}
+
+.calendar .days {
+  margin-bottom: 20px;
+}
+
+.calendar li {
+  color: #333;
+  width: calc(100% / 7);
+  font-size: 1.07rem;
+}
+
+.calendar .weeks li {
+  font-weight: 500;
+  cursor: default;
+}
+
+.calendar .days li {
+  z-index: 1;
+  cursor: pointer;
+  position: relative;
+  margin-top: 30px;
+}
+
+.days li.inactive {
+  color: #aaa;
+}
+
+.days li.diaHoje {
+  color: red;
+}
+
+.days li::before {
+  position: absolute;
+  content: "";
+  left: 50%;
+  top: 50%;
+  height: 40px;
+  width: 40px;
+  z-index: -1;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.days li.diaHoje:hover::before {
+  border-width: 1px;
+  border-style: solid;
+  border-color: red;
+}
+
+.days li:not(.diaHoje):hover::before {
+  background: #f2f2f2;
+}
+
+.nav{
+  top: 0;
+  left: 0;
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+}
+
+.nav b {
+  font-size: 30px;
+  margin-top: 0;
+  color: rgb(254, 255, 255);
+}
+
+.days li.marked{
+  color: #005EA6;
+}
+
+.days li.marked:hover::before {
+  border-width: 1px;
+  border-style: solid;
+  border-color: #005EA6;
+}
+
+.mural {
+  width: 500px;
+  margin-left: 40px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+}
+
+.mural h1 {
+  font-size: 1.45rem;
+  font-weight: 500;
+  margin-bottom: 25px;
+  display: flex;
+  padding: 25px 30px 10px;
+  justify-content: center;
+
+}
+
+#menuBtn{
+  display: flex;
+  width: 30px;
+  position: absolute;
+  align-self: flex-end;
+  cursor: pointer;
+}
+
+.aniversariantes#pendente {
+  list-style-type: none;
+  padding: 20px 20px 0px 20px;
+  display: flex;
+  color: rgb(216, 144, 9);
+}
+
+.aniversariantes#quitado {
+  list-style-type: none;
+  padding: 20px 20px 0px 20px;
+  display: flex;
+  color: rgb(53, 184, 86);
+}
+
+.gerarCobranca {
+  margin-top: auto;
+  margin-bottom: 15px;
+  max-width: fit-content;
+  align-self: center;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 13px;
+  background-color: white;
+  font-weight: bold;
+}
+.gerarCobranca:hover{
+  background-color: rgba(221, 218, 218, 0.938);
+}
+
+dialog {
+  border: 0px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -100%);
+
+}
+
+dialog::backdrop{
+  position: fixed;
+  background: rgba(0, 0, 0, 0.5);
+  
+}
+
+.menu{
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.menuAniversariantes{
+  list-style-type: none;
+}
+
+
+
+
