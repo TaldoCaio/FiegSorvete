@@ -3,3 +3,4 @@ node_modules
 package-lock.js
 # Keep environment variables out of version control
 .env
+package-lock.json
