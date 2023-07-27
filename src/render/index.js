@@ -88,25 +88,24 @@ const renderizarCalendario = () => {
 
         for (let usuario of muralInfo) {
 
-            const id = usuario._id;
+            const id = usuario.user_id;
             const nomes = usuario.nome;
-            const mes = usuario.mesAniversario;
             const mesFormatado = usuario.aniversario.substring(0, 10);
             const [year, month, day] = mesFormatado.split('-');
 
-            const buscaStatus = await fetch('http://localhost:3000/cobranca/buscar/' + id);
+            const buscaStatus = await fetch('http://localhost:3000/cobranca/buscar/usuario/' + id);
             const status = await buscaStatus.json();
             let aniversarianteAdicionado = false;
 
             for (let stat of status) {
-                const statusAtual = stat.cobStatus;
+                const statusAtual = stat.statusCobranca;
 
-                if (mes === (mesAtual + 1)) {
+                if (Number(month) === (mesAtual + 1)) {
                     if (!aniversarianteAdicionado) {
-                        if (statusAtual === "P") {
-                            tagLi += `<li class="aniversariantes" id="pendente" ">${nomes + ": " + Number(day) + "/" + Number(month) + " = " + "Pendente"}</li>`;
+                        if (statusAtual === "A") {
+                            tagLi += `<li class="aniversariantes" id="pendente" ">${nomes + ": " + Number(day) + "/" + Number(month) + " = " + "Aberto"}</li>`;
                         } else {
-                            tagLi += `<li class="aniversariantes" id="quitado" ">${nomes + ": " + Number(day) + "/" + Number(month) + " = " + "Quitado"}</li>`;
+                            tagLi += `<li class="aniversariantes" id="quitado" ">${nomes + ": " + Number(day) + "/" + Number(month) + " = " + "Pago"}</li>`;
                         }
                         aniversarianteAdicionado = true;
                     }
@@ -174,9 +173,9 @@ async function renderizarMenu() {
 
                 if (idUser === idcobranca) {
                     if (cadaStatus.cobStatus === 'P') {
-                        tagLi += `<li class="menuAniversariantes">${cadaInfo.nome}: ${Number(day)}/${Number(month)} - Pendente</li> `;
+                        tagLi += `<li class="menuAniversariantes">${cadaInfo.nome}: ${Number(day)}/${Number(month)} - Pago</li> `;
                     } else {
-                        tagLi += `<li class="menuAniversariantes">${cadaInfo.nome}: ${Number(day)}/${Number(month)} - Quitado</li> `;
+                        tagLi += `<li class="menuAniversariantes">${cadaInfo.nome}: ${Number(day)}/${Number(month)} - Aberto</li> `;
                     }
                 }
             }

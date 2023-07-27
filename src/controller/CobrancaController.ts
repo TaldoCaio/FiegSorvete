@@ -15,9 +15,9 @@ cobrancaControllerRouter.post('/gerar', async (req,res) => {
             }
         })
         
-        if(!cobrancaExistente){
-            return res.sendStatus(400).json('Essa cobranca já existe')
-        }{  
+        if(cobrancaExistente.length > 0){
+            res.status(400).json('Essa cobranca já existe')
+        } else {  
             const cobranca = await prisma.cobranca.create({
                 data:{
                     idCobrado: parseInt(idCobrado),
@@ -25,7 +25,7 @@ cobrancaControllerRouter.post('/gerar', async (req,res) => {
                     statusCobranca: "A"
                 }
             })
-            return res.status(200).json(cobranca)
+            res.status(200).json(cobranca)
         }
     } catch (error) {
         res.status(500).json({error})    
@@ -55,4 +55,35 @@ cobrancaControllerRouter.get('/buscar/:cobranca_id', async (req,res) =>{
     }
 })
 
+cobrancaControllerRouter.get('/buscar/usuario/:idCobrado', async (req,res) => {
+    try {
+        const {idCobrado} = req.params
+        const cobranca = await prisma.cobranca.findMany({
+            where: {
+                idCobrado: parseInt(idCobrado)
+            }
+        })
+        if(cobranca.length > 0){
+            res.status(200).json(cobranca)    
+        }else{
+            res.status(404).json(cobranca)
+        }
+    } catch (error) {
+        res.status(500).json(error)
+    }
+})
+
+cobrancaControllerRouter.delete('/deletar/:cobranca_id', async (req,res) => {
+    try {
+        const {cobranca_id} = req.params
+        const cobranca = await prisma.cobranca.delete({
+            where: {
+                cobranca_id: parseInt(cobranca_id)
+            }
+        })
+        res.status(200).json(cobranca)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+})
 export default cobrancaControllerRouter

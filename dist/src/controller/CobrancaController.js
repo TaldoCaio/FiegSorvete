@@ -22,10 +22,10 @@ cobrancaControllerRouter.post('/gerar', (req, res) => __awaiter(void 0, void 0, 
                 idCobrado: req.body.idCobrado
             }
         });
-        if (!cobrancaExistente) {
-            return res.sendStatus(400).json('Essa cobranca já existe');
+        if (cobrancaExistente.length > 0) {
+            res.status(400).json('Essa cobranca já existe');
         }
-        {
+        else {
             const cobranca = yield prisma.cobranca.create({
                 data: {
                     idCobrado: parseInt(idCobrado),
@@ -33,7 +33,7 @@ cobrancaControllerRouter.post('/gerar', (req, res) => __awaiter(void 0, void 0, 
                     statusCobranca: "A"
                 }
             });
-            return res.status(200).json(cobranca);
+            res.status(200).json(cobranca);
         }
     }
     catch (error) {
@@ -53,6 +53,39 @@ cobrancaControllerRouter.get('/buscar/:cobranca_id', (req, res) => __awaiter(voi
     try {
         const { cobranca_id } = req.params;
         const cobranca = yield prisma.cobranca.findUnique({
+            where: {
+                cobranca_id: parseInt(cobranca_id)
+            }
+        });
+        res.status(200).json(cobranca);
+    }
+    catch (error) {
+        res.status(500).json(error);
+    }
+}));
+cobrancaControllerRouter.get('/buscar/usuario/:idCobrado', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { idCobrado } = req.params;
+        const cobranca = yield prisma.cobranca.findMany({
+            where: {
+                idCobrado: parseInt(idCobrado)
+            }
+        });
+        if (cobranca.length > 0) {
+            res.status(200).json(cobranca);
+        }
+        else {
+            res.status(404).json(cobranca);
+        }
+    }
+    catch (error) {
+        res.status(500).json(error);
+    }
+}));
+cobrancaControllerRouter.delete('/deletar/:cobranca_id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { cobranca_id } = req.params;
+        const cobranca = yield prisma.cobranca.delete({
             where: {
                 cobranca_id: parseInt(cobranca_id)
             }
